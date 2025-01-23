@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, HttpResponse
 from django.views.generic import TemplateView
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from .utils import logout_required
@@ -40,6 +40,7 @@ def user_login(request):
             password = form.cleaned_data['password']
             user = authenticate(username=username, password=password)
             login(request, user)
+            messages.success(request, 'You are logged in')
             return redirect('home')
         else:
             print(form.errors)
@@ -51,6 +52,21 @@ def user_login(request):
 @login_required
 def user_logout(request):
     logout(request)
-    # return redirect('home')
-    # return redirect('login')
-    return HttpResponse('You are logged out')  # for testing purpose
+    messages.success(request, 'You are logged out')
+    return redirect('login')
+
+
+@login_required
+def change_password(request):
+    user = request.user
+    form = PasswordChangeForm(user)
+    if request.method == 'POST':
+        form = PasswordChangeForm(user, request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Password changed successfully')
+            return redirect('login')
+        else:
+            messages.error(request, 'Please correct the error below.')
+            return redirect('change_password')
+    return render(request, 'change_password.html', context={'form': form})

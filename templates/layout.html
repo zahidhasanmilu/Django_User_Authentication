@@ -23,7 +23,7 @@
         <div>
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                 <div class="container">
-                    <a class="navbar-brand" href="#">Navbar</a>
+                    <a class="navbar-brand" href="{% url 'home' %}">Django User Authentication</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                         data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -31,20 +31,28 @@
                     </button>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#">Home</a>
+                            {% if request.user.is_authenticated %}
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" href="{% url 'logout' %}">Logout</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link disabled" href="#" tabindex="-1"
+                                    aria-disabled="true">{{request.user.username}}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" href="{% url 'change_password' %}" tabindex="-1"
+                                    aria-disabled="true">Change Password</a>
+                            </li>
+                            {% else %}
+
                             <li class="nav-item">
                                 <a class="nav-link active" href="{% url 'signup' %}">Signup</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link active" href="{% url 'login' %}">Login</a>
-                            </li><li class="nav-item">
-                                <a class="nav-link active" href="{% url 'logout' %}">Logout</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">{{request.user.username}}</a>
-                            </li>
+                                {% endif %}
+
                         </ul>
 
                     </div>
@@ -53,12 +61,22 @@
         </div>
 
 
+
+
+
         <!-- main content -->
         <div class="container">
+            <!-- message block  -->
+            {% block message %}
+
+            {% endblock message %}
+            <!-- message block end -->
+
+            <!-- content block start  -->
             {% block content %}
 
             {% endblock content %}
-
+            <!-- content block end -->
         </div>
 
 
