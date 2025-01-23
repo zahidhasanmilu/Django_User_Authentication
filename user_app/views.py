@@ -21,7 +21,9 @@ def user_signup(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
+            login(request, user)
+            messages.success(request, 'Account created successfully')
             return redirect('home')
     else:
         form = UserCreationForm()
