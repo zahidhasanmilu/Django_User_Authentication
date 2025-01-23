@@ -1,0 +1,37 @@
+{% extends 'layout.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block title %}
+Login Page
+{% endblock title %}
+
+
+
+{% block content %}
+<h1>Welcome to the Login Page</h1>
+<p>This is the <b>Login Page</b> of the website.</p>
+<p>Feel free to login here.</p>
+
+<form method="POST" class="center" style="width: 50%; margin: auto;">
+
+    <!-- message  -->
+    <div class="messages">
+        {% if messages %}
+        {% for message in messages %}
+        <div {% if message.tags %} class="alert alert-{{message.tags}} alert-dismissible fade show {% endif %}"
+            role="alert">
+            <strong>
+                <h3>{{ message }}</h3>
+            </strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+     <!-- message end  -->
+    {% csrf_token %}
+    {{ form|crispy }}
+    <button type="submit" class="btn btn-primary">Login</button>
+</form>
+{% endblock content %}
