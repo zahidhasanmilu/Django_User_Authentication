@@ -1,20 +1,22 @@
 {% extends 'layout.html' %}
 
-
+{% load crispy_forms_tags %}
 
 {% block title %}
 Signup Page
 {% endblock title %}
-    
+
 
 
 {% block content %}
 <h1>Welcome to the Signup Page</h1>
 <p>This is the signup page of the website.</p>
 <p>Feel free to signup here.</p>
+
 <form method="POST" class="center" style="width: 50%; margin: auto;">
     {% csrf_token %}
-    {{ form.as_p }}
+    {{ form|crispy }}
+    <button type="submit" class="btn btn-primary">Signup</button>
 </form>
 
 
