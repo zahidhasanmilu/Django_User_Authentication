@@ -117,7 +117,7 @@ USE_I18N = True
 
 USE_TZ = True
 
-# LOGIN_URL =
+LOGIN_URL = 'login'
 # LOGIN_REDIRECT_URL =
 
 # Static files (CSS, JavaScript, Images)

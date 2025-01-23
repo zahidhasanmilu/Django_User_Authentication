@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from django.views.generic import TemplateView
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout, authenticate
@@ -46,3 +46,11 @@ def user_login(request):
             messages.warning(request, 'Invalid username or password')
             return redirect('login')
     return render(request, 'login.html', context={'form': form})
+
+
+@login_required
+def user_logout(request):
+    logout(request)
+    # return redirect('home')
+    # return redirect('login')
+    return HttpResponse('You are logged out')  # for testing purpose
